@@ -2,14 +2,14 @@
   tags: apache,apache2,php
   package:
     name:
-      - apache2
-      - libapache2-mod-php
+      - "{{ apache_package_name }}"
+      - "{{ php_package_name }}"
     state: latest
 
 - name: Start Apache service
   tags: apache,apache2,service
   service:
-    name: apache2
+    name: "{{ apache_service }}"
     state: started
     enabled: yes
 
