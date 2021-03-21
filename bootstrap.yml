@@ -1,0 +1,33 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+  - name: Update cache
+    tags: always
+    package:
+      update_cache: yes
+
+- hosts: all
+  become: true
+  tasks:
+  - name: create rocky user
+    tags: always
+    user:
+      name: rocky
+      groups: root
+
+  - name: add ssh key for rocky
+    tags: always
+    authorized_key:
+      user: rocky
+      key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC7hQngnR/5K8Zy6tbgu7M7O/lewcNiBg6AotJiBo2hQm502EeNYItsNVw4ajU80DJZurMEeHvCXIS5SyVgbTQSvR2Lhy+7Vte1nuCkEC4+StWVfGSxWp55uF5Gqwtk+pmtdMlVFpwllJCsQ2q1w73I9lIqLTjikakVjyaTl+BSJGOf1Z1qGOTzBGNeHZmrlQgN/0fTB3W2ltSjiiF/SewxQPxgNd9DEFdxkvG5BeueJEQ2XSnT3zKIaFoy8XbfaWK8VCkFNJlBF6KdFdQx47ftpOThQjUxWPGxqFMT1o5l83LsvV5jd3KznICz7IXz/ngnjVMGxPTQe0Q52wB++mu7ex6ijjAhHDS+ZNq57LNCM7xKi9WYjPgfsGTxQsNI0ucDUXo30Z3YzhmRnN2mt91tbi2SGqMe6DPlBEJYv4kVVCfDtfrS6TJYds3+2Bz0GTZl1G9/FOm9RmPjvGD8KwB0hwLz86tQp9DtYarbqHOhnx8nm0YVH4Vgo2B+1Ss1Eus= aidan@control"
+
+  - name: add sudoers file for rocky
+    tags: always
+    copy:
+      src: sudoer_rocky
+      dest: /etc/sudoers.d/rocky
+      owner: root
+      group: root
+      mode: 0440
