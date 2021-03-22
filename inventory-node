@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+
+let obj = {
+  "_meta": {
+    "hostvars": {
+      "mysql1": {
+        "ansible_host": "192.168.153.131",
+        "ssh_template_file": "sshd_config_ubuntu.j2",
+        "ssh_users": "aidan rocky"
+      },
+      "apache1": {
+        "ansible_host": "192.168.153.130",
+        "apache_package_name": "apache2",
+        "apache_service": "apache2",
+        "php_package_name": "libapache2-mod-php",
+        "ssh_template_file": "sshd_config_ubuntu.j2",
+        "ssh_users": "aidan rocky"
+      }
+    }
+  },
+  "all": {
+    "children": [
+      "db_servers",
+      "ungrouped",
+      "vms",
+      "web_servers"
+    ],
+  },
+  "db_servers": {
+    "hosts": [
+      "mysql1"
+    ]
+  },
+  "vms": {
+    "hosts": [
+      "mysql1",
+      "apache1"
+    ]
+  },
+  "web_servers": {
+    "hosts": [
+      "apache1"
+    ]
+  }
+};
+
+console.log(JSON.stringify(obj));
